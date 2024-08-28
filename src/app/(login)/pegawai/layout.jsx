@@ -1,6 +1,6 @@
 "use client";
 import iconMap from "@/components/icon";
-import {ChevronDown, ChevronUp, MenuIcon} from "lucide-react";
+import {ChevronDown, ChevronUp, MenuIcon, X} from "lucide-react";
 import Link from "next/link";
 import React, {useState} from "react";
 
@@ -63,11 +63,22 @@ const Layout = ({children}) => {
  return (
   <div className="flex w-full h-screen overflow-hidden bg-[#2B6100]">
    <aside
-    className={`bg-[#2B6100] overflow-y-auto  text-white transition-all duration-300 ease-in-out ${
-     isAsideVisible ? "w-[350px] translate-x-0" : "w-0 -translate-x-full"
+    className={`bg-[#2B6100] fixed overflow-y-auto z-40 transition-all duration-300 ease-in-out ${
+     isAsideVisible
+      ? " top-0 left-0 w-full h-dvh translate-y-0"
+      : "h-0 -translate-y-full"
+    } ${
+     isAsideVisible
+      ? "lg:w-[350px] lg:translate-x-0"
+      : "w-0 lg:-translate-x-full"
     }`}>
-    <div className="h-[87px] flex items-center px-8">
+    <div className="h-[87px] flex items-center justify-between px-8">
      <p className="text-2xl font-bold">SIMPEL</p>
+     <button
+      onClick={toggleAside}
+      className="">
+      <X />
+     </button>
     </div>
     <ul className="flex flex-col gap-8 px-8 mb-20">
      {menuItems.map((item, index) => {
@@ -121,13 +132,18 @@ const Layout = ({children}) => {
      })}
     </ul>
    </aside>
-   <div className="flex flex-col flex-1">
+   <div
+    className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${
+     isAsideVisible ? "lg:ml-[350px]" : "lg:ml-0"
+    }`}>
     <header className="h-[87px] w-full text-black bg-white flex-shrink-0 shadow-sm px-8">
-     <nav className="flex items-center justify-between h-full">
-      <button onClick={toggleAside}>
+     <nav className="flex items-center justify-end h-full">
+      <button
+       onClick={toggleAside}
+       className={`${isAsideVisible ? "hidden" : "block"}`}>
        <MenuIcon />
       </button>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-end gap-4 grow">
        <div className="flex flex-col items-end">
         <p className="text-lg font-semibold">:Nama Lengkap:</p>
         <p>:Jabatan:</p>

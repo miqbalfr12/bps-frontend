@@ -16,7 +16,7 @@ const Page = () => {
     </button>
    </div>
    <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
-    <div className="flex flex-col gap-4 p-8 bg-white rounded-lg shadow-lg">
+    <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
      <table class="table-fixed border-collapse">
       <thead>
        <tr className="border-b-2 border-[#2D95CA]">
