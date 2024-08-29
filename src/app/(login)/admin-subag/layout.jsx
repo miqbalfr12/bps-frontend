@@ -27,18 +27,8 @@ const menuItems = [
    },
    {
     type: "link",
-    href: "/admin-subag/input-surat-masuk",
-    content: "Input Surat Masuk",
-   },
-   {
-    type: "link",
     href: "/admin-subag/list-surat-keluar",
     content: "Surat Keluar",
-   },
-   {
-    type: "link",
-    href: "/admin-subag/input-surat-keluar",
-    content: "Input Surat Keluar",
    },
   ],
  },

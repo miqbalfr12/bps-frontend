@@ -27,8 +27,6 @@ const route = {
   "/admin-subag",
   "/admin-subag/list-surat-masuk",
   "/admin-subag/list-surat-keluar",
-  "/admin-subag/input-surat-masuk",
-  "/admin-subag/input-surat-keluar",
  ],
  pegawai: [
   "/pegawai",

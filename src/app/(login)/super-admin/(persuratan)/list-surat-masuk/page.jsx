@@ -1,5 +1,8 @@
+"use client";
 import React from "react";
+
 import Table from "@/components/table";
+import ModalTambahSuratMasuk from "@/components/modal/modalTambahSuratMasuk";
 
 const data = [
  {
@@ -42,22 +45,37 @@ const header = [
 ];
 
 const Page = () => {
+ const [open, setOpen] = React.useState(false);
+
+ const handleModal = () => {
+  setOpen((prev) => !prev);
+ };
  return (
-  <div className="relative text-black">
-   <div className="h-[250px] bg-[#2D95CA] p-8 text-white pt-16 flex justify-between">
-    <p className="text-3xl font-semibold">Surat Masuk</p>
-    <button className="text-[#2D95CA] text-xl bg-white rounded-md h-fit p-2 px-4">
-     Input Surat Masuk
-    </button>
+  <>
+   <div className="relative text-black">
+    <div className="h-[250px] bg-[#2D95CA] p-8 text-white pt-16 flex justify-between">
+     <p className="text-3xl font-semibold">Surat Masuk</p>
+     <button
+      onClick={() => handleModal()}
+      className="text-[#2D95CA] text-xl bg-white rounded-md h-fit p-2 px-4">
+      Input Surat Masuk
+     </button>
+    </div>
+    <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
+     <Table
+      data={data}
+      header={header}
+      color="blue"
+     />
+    </div>
    </div>
-   <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
-    <Table
-     data={data}
-     header={header}
-     color="blue"
-    />
-   </div>
-  </div>
+
+   <ModalTambahSuratMasuk
+    open={open}
+    handler={handleModal}
+    color="blue"
+   />
+  </>
  );
 };
 
