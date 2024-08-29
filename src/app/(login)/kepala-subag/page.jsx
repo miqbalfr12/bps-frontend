@@ -47,8 +47,9 @@ const Page = () => {
     <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
      <h3 className="text-2xl font-semibold">Dashboard</h3>
      <p>
-      Selamat Datang :Nama Lengkap: di E-Surat Badan Pusat Statistik Indonesia!
-      Anda login sebagai Kepala Subag.
+      Selamat Datang :Nama Lengkap: di Simpel (Sistem Informasi Manajemen
+      Pelayanan Elektronik) Badan Pusat Statistik Tasikmalaya! Anda login
+      sebagai Kepala Subag.
      </p>
     </div>
    </div>
