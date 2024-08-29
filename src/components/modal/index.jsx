@@ -8,7 +8,7 @@ const Modal = ({open, handler, children}) => {
      open ? "opacity-100" : "opacity-0 pointer-events-none"
     }`}>
     <div
-     className={`relative p-5 bg-white border rounded-md shadow-lg z-50 my-20 mx-auto w-fit max-w-7xl text-black transition-transform duration-300  ${
+     className={`relative p-5 bg-white border rounded-md shadow-lg z-50 my-20 mx-auto max-w-7xl text-black transition-transform duration-300  ${
       open ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
      }`}>
      {children}

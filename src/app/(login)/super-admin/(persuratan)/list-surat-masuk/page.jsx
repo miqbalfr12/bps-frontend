@@ -12,7 +12,7 @@ const data = [
   intansi: "Malcolm Lockyer",
   perihal: "The Sliding Mr. Bones (Next Stop, Pottersville)",
   penerima_tugas: "-",
-  aksi: ["view"],
+  aksi: ["view", "disposisi"],
  },
  {
   no: 2,
