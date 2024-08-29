@@ -1,10 +1,46 @@
-import {
- EyeIcon,
- FolderOutputIcon,
- FolderSymlinkIcon,
- UsersRoundIcon,
-} from "lucide-react";
 import React from "react";
+
+import Table from "@/components/table";
+
+const data = [
+ {
+  no: 1,
+  status_verifikasi: "Menunggu",
+  tanggal_diterima: "01/02/2024",
+  no_surat: "Menunggu diterbitkan",
+  perihal: "Pengajuan Izin Pengadaan ...",
+  kepada: "Kepala Satker",
+  aksi: ["view", "edit", "delete"],
+ },
+ {
+  no: 2,
+  status_verifikasi: "Menunggu",
+  tanggal_diterima: "01/02/2024",
+  no_surat: "Menunggu diterbitkan",
+  perihal: "Pengajuan Izin Pengadaan ...",
+  kepada: "Kepala Satker",
+  aksi: ["view", "edit", "delete"],
+ },
+ {
+  no: 3,
+  status_verifikasi: "Menunggu",
+  tanggal_diterima: "01/02/2024",
+  no_surat: "Menunggu diterbitkan",
+  perihal: "Pengajuan Izin Pengadaan ...",
+  kepada: "Kepala Satker",
+  aksi: ["view", "edit", "delete"],
+ },
+];
+
+const header = [
+ "no",
+ "status_verifikasi",
+ "tanggal_diterima",
+ "no_surat",
+ "perihal",
+ "kepada",
+ "aksi",
+];
 
 const Page = () => {
  return (
@@ -13,70 +49,11 @@ const Page = () => {
     Users
    </div>
    <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
-    <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
-     <table class="table-fixed border-collapse">
-      <thead>
-       <tr className="border-b-2 border-[#2D95CA]">
-        <th className="p-4">No.</th>
-        <th className="p-4">Status Verifikasi</th>
-        <th className="p-4">Tanggal Diterima</th>
-        <th className="p-4">Intansi</th>
-        <th className="p-4">Perihal</th>
-        <th className="p-4">Penerima Tugas</th>
-        <th className="p-4">Aksi</th>
-       </tr>
-      </thead>
-      <tbody>
-       <tr>
-        <td className="p-2">1</td>
-        <td className="p-2">Disposisi Kepala SatKer</td>
-        <td className="p-2 text-center">01/02/2024</td>
-        <td className="p-2">Malcolm Lockyer</td>
-        <td className="p-2">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-        <td className="p-2">-</td>
-        <td className="flex items-start justify-center p-2">
-         <button className="bg-[#2D95CA] p-2 rounded-md">
-          <EyeIcon className="text-white" />
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td className="p-2">2</td>
-        <td className="p-2">Disposisi Kepala SatKer</td>
-        <td className="p-2 text-center">01/02/2024</td>
-        <td className="p-2">The Eagles</td>
-        <td className="p-2">Witchy Woman</td>
-        <td className="p-2">-</td>
-        <td className="flex items-start justify-center p-2">
-         <button className="bg-[#2D95CA] p-2 rounded-md">
-          <EyeIcon className="text-white" />
-         </button>
-        </td>
-       </tr>
-       <tr className="border-b-2 border-[#2D95CA]">
-        <td className="p-2">3</td>
-        <td className="p-2">Disposisi Kepala SatKer</td>
-        <td className="p-2 text-center">01/02/2024</td>
-        <td className="p-2">Shining</td>
-        <td className="p-2">Earth, Wind, and Fire</td>
-        <td className="p-2">-</td>
-        <td className="flex items-start justify-center p-2">
-         <button className="bg-[#2D95CA] p-2 rounded-md">
-          <EyeIcon className="text-white" />
-         </button>
-        </td>
-       </tr>
-      </tbody>
-     </table>
-     <div className="flex items-center justify-between">
-      <p>Showing 1 to 3 of 3 entries</p>
-      <div className="flex items-center gap-4">
-       <button>sebelumnya</button>
-       <div className="bg-[#2D95CA] p-2 rounded-md text-white">1</div>
-       <button>selanjutnya</button>
-      </div>
-     </div>
-    </div>
+    <Table
+     data={data}
+     header={header}
+     color="blue"
+    />
    </div>
   </div>
  );
