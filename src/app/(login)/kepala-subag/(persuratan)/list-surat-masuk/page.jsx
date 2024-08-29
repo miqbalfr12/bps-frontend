@@ -1,9 +1,45 @@
-import {
- FolderOutputIcon,
- FolderSymlinkIcon,
- UsersRoundIcon,
-} from "lucide-react";
 import React from "react";
+import Table from "@/components/table";
+
+const data = [
+ {
+  no: 1,
+  status_verifikasi: "Disposisi Kepala SatKer",
+  tanggal_diterima: "01/02/2024",
+  intansi: "Malcolm Lockyer",
+  perihal: "The Sliding Mr. Bones (Next Stop, Pottersville)",
+  penerima_tugas: "-",
+  aksi: ["view"],
+ },
+ {
+  no: 2,
+  status_verifikasi: "Disposisi Kepala SatKer",
+  tanggal_diterima: "01/02/2024",
+  intansi: "The Eagles",
+  perihal: "Witchy Woman",
+  penerima_tugas: "-",
+  aksi: ["view"],
+ },
+ {
+  no: 3,
+  status_verifikasi: "Disposisi Kepala SatKer",
+  tanggal_diterima: "01/02/2024",
+  intansi: "Shining",
+  perihal: "Earth, Wind, and Fire",
+  penerima_tugas: "-",
+  aksi: ["view"],
+ },
+];
+
+const header = [
+ "no",
+ "status_verifikasi",
+ "tanggal_diterima",
+ "intansi",
+ "perihal",
+ "penerima_tugas",
+ "aksi",
+];
 
 const Page = () => {
  return (
@@ -12,45 +48,11 @@ const Page = () => {
     Surat Masuk
    </div>
    <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
-    <div className="flex flex-wrap gap-8">
-     <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
-      <div className="flex items-center justify-between">
-       <h2 className="text-xl">Surat Masuk</h2>
-       <div className="p-4 bg-[#E28839] rounded-md">
-        <FolderSymlinkIcon className="text-white" />
-       </div>
-      </div>
-      <div className="text-3xl font-bold">123</div>
-      <p>Surat</p>
-     </div>
-     <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
-      <div className="flex items-center justify-between">
-       <h2 className="text-xl">Surat Keluar</h2>
-       <div className="p-4 bg-[#E28839] rounded-md">
-        <FolderOutputIcon className="text-white" />
-       </div>
-      </div>
-      <div className="text-3xl font-bold">123</div>
-      <p>Surat</p>
-     </div>
-     <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
-      <div className="flex items-center justify-between">
-       <h2 className="text-xl">Pegawai</h2>
-       <div className="p-4 bg-[#E28839] rounded-md">
-        <UsersRoundIcon className="text-white" />
-       </div>
-      </div>
-      <div className="text-3xl font-bold">123</div>
-      <p>Surat</p>
-     </div>
-    </div>
-    <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
-     <h3 className="text-2xl font-semibold">Dashboard</h3>
-     <p>
-      Selamat Datang :Nama Lengkap: di E-Surat Badan Pusat Statistik Indonesia!
-      Anda login sebagai Kepala Subag.
-     </p>
-    </div>
+    <Table
+     data={data}
+     header={header}
+     color="yellow"
+    />
    </div>
   </div>
  );
