@@ -61,8 +61,10 @@ const ModalViewDisposisi = ({open, handler, color, data}) => {
        </div>
        <div className="flex flex-col gap-4 mb-4">
         {data.terdisposisi ? (
-         data.terdisposisi.map((item) => (
-          <div className="w-full p-4 rounded-md bg-neutral-300">
+         data.terdisposisi.map((item, index) => (
+          <div
+           key={index}
+           className="w-full p-4 rounded-md bg-neutral-300">
            <p className="mb-2 text-lg font-semibold text-black">
             {item.penerima.fullname}
            </p>

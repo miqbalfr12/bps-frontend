@@ -258,6 +258,7 @@ const authOptions = {
       headers: {
        "Content-Type": "application/json",
       },
+      cache: "no-store",
       body: JSON.stringify({password}),
      }
     ).then(async (res) => {

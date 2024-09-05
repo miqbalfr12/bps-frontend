@@ -23,6 +23,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
    headers: {
     "Content-Type": "application/json",
    },
+   cache: "no-store",
    body: JSON.stringify(dataObj),
   });
   if (createUser.ok) {

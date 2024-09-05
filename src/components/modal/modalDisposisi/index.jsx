@@ -46,6 +46,7 @@ const ModalDisposisi = ({
     "Content-Type": "application/json",
     authorization: `Bearer ${session.user.token}`,
    },
+   cache: "no-store",
    body: JSON.stringify(payload),
   });
 

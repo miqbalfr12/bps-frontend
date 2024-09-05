@@ -24,6 +24,7 @@ const Page = () => {
    headers: {
     authorization: `Bearer ${session.user.token}`,
    },
+   cache: "no-store",
   }).then(async (res) => {
    if (res.ok) {
     const resJson = await res.json();

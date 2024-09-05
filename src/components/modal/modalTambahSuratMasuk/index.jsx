@@ -18,6 +18,7 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
    headers: {
     authorization: `Bearer ${session.user.token}`,
    },
+   cache: "no-store",
    body: formData,
   });
   if (uploadSuratMasuk.ok) {
