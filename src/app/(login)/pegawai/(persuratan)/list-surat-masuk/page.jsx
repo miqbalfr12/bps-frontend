@@ -1,46 +1,51 @@
-import React from "react";
-import Table from "@/components/table";
+"use client";
+import {useSession} from "next-auth/react";
+import React, {useEffect} from "react";
 
-const data = [
- {
-  no: 1,
-  status_verifikasi: "Disposisi Kepala SatKer",
-  tanggal_diterima: "01/02/2024",
-  intansi: "Malcolm Lockyer",
-  perihal: "The Sliding Mr. Bones (Next Stop, Pottersville)",
-  penerima_tugas: "-",
-  aksi: ["view"],
- },
- {
-  no: 2,
-  status_verifikasi: "Disposisi Kepala SatKer",
-  tanggal_diterima: "01/02/2024",
-  intansi: "The Eagles",
-  perihal: "Witchy Woman",
-  penerima_tugas: "-",
-  aksi: ["view"],
- },
- {
-  no: 3,
-  status_verifikasi: "Disposisi Kepala SatKer",
-  tanggal_diterima: "01/02/2024",
-  intansi: "Shining",
-  perihal: "Earth, Wind, and Fire",
-  penerima_tugas: "-",
-  aksi: ["view"],
- },
-];
+import Table from "@/components/table";
+import ModalTambahSuratMasuk from "@/components/modal/modalTambahSuratMasuk";
 
 const header = [
  "no",
- "status_verifikasi",
- "tanggal_diterima",
- "intansi",
- "perihal",
- "penerima_tugas",
+ "status_persuratan",
+ "instansi_pengirim",
+ "perihal_surat",
+ "tanggal_disposisi",
  "aksi",
 ];
 const Page = () => {
+ const {data: session} = useSession();
+ const [open, setOpen] = React.useState(false);
+ const [dataSuratMasuk, setData] = React.useState([]);
+
+ const getData = async () => {
+  await fetch("/api/v1.0.0/disposisi", {
+   method: "GET",
+   headers: {
+    authorization: `Bearer ${session.user.token}`,
+   },
+  }).then(async (res) => {
+   if (res.ok) {
+    const resJson = await res.json();
+    resJson.map((item, index) => {
+     item.no = index + 1;
+    });
+    setData(resJson);
+   }
+  });
+ };
+
+ const refreshData = () => {
+  getData();
+ };
+
+ useEffect(() => {
+  getData();
+ }, []);
+
+ const handleModal = () => {
+  setOpen((prev) => !prev);
+ };
  return (
   <div className="relative text-black">
    <div className="h-[250px] bg-[#76B445] p-8 text-white text-3xl font-semibold pt-16">
@@ -48,7 +53,7 @@ const Page = () => {
    </div>
    <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
     <Table
-     data={data}
+     data={dataSuratMasuk}
      header={header}
      color="green"
     />

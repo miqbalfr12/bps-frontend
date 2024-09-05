@@ -7,24 +7,31 @@ import Input from "@/components/input";
 import ModalSuccess from "../modalSuccess";
 import ModalFailed from "../modalFailed";
 
-const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
+const ModalTambahUser = ({open, handler, color, refreshData}) => {
  const {data: session} = useSession();
  const [openSub, setOpenSub] = React.useState(false);
+ const [failMsg, setFailMsg] = React.useState("Buat Akun User Gagal Disimpan");
  const handleSub = async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
-  const uploadSuratMasuk = await fetch(`/api/v1.0.0/surat-masuk`, {
+  const dataObj = {};
+  formData.forEach((value, key) => {
+   if (value) dataObj[key] = value;
+  });
+  const createUser = await fetch(`/api/v1.0.0/auth/register`, {
    method: "POST",
    headers: {
-    authorization: `Bearer ${session.user.token}`,
+    "Content-Type": "application/json",
    },
-   body: formData,
+   body: JSON.stringify(dataObj),
   });
-  if (uploadSuratMasuk.ok) {
+  if (createUser.ok) {
    setOpenSub("Success");
    refreshData();
   } else {
+   const err = await createUser.json();
    setOpenSub("Failed");
+   setFailMsg(err.message);
   }
  };
 
@@ -46,7 +53,7 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
         ? "border-[#E28839]"
         : "border-black"
       } mb-4 `}>
-      <p className="text-xl font-semibold">TAMBAH SURAT MASUK</p>
+      <p className="text-xl font-semibold">TAMBAH USER</p>
       <button
        type="button"
        onClick={handler}>
@@ -55,86 +62,42 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
      </div>
      <div className="flex flex-col gap-4 mb-4">
       <div>
-       <p className="text-xl font-semibold">Informasi Umum</p>
-       <p>Lengkapi Informasi pada Surat Masuk</p>
+       <p className="text-xl font-semibold">Informasi User</p>
+       <p>Lengkapi Informasi User</p>
       </div>
       <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
        <Input
-        label="Nomor Surat"
-        name="no_surat"
+        label="Nama Lengkap"
+        name="fullname"
         required
         color={color}
         type="text"
        />
        <Input
-        label="Tanggal Surat"
-        name="tanggal_surat"
-        required
-        color={color}
-        type="date"
-       />
-       <Input
-        label="Tanggal Diterima"
-        name="tanggal_diterima"
-        required
+        label="Tanggal Lahir"
+        name="birth_date"
         color={color}
         type="date"
        />
       </div>
       <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
        <Input
-        label="Instansi Pengirim"
-        name="instansi_pengirim"
+        label="NIK"
+        name="nik"
         required
         color={color}
         type="text"
        />
        <Input
-        label="No. Agenda"
-        name="no_agenda"
+        label="Email"
+        name="email"
         required
         color={color}
-        type="text"
+        type="email"
        />
        <Input
-        label="Klasifikasi"
-        name="klasifikasi"
-        required
-        color={color}
-        type="text"
-       />
-      </div>
-      <Input
-       label="Perihal Surat"
-       name="perihal_surat"
-       required
-       color={color}
-       type="text"
-      />
-     </div>
-     <div className="flex flex-col gap-4 mb-4">
-      <div>
-       <p className="text-xl font-semibold">Informasi Tambahan</p>
-       <p>Silahkan Lengkapi Informasi Tambahan dibawah ini</p>
-      </div>
-      <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
-       <Input
-        label="Jumlah Lampiran"
-        name="jumlah_lampiran"
-        required
-        color={color}
-        type="number"
-       />
-       <Input
-        label="Status Surat"
-        name="status_surat"
-        required
-        color={color}
-        type="text"
-       />
-       <Input
-        label="Sifat Tindakan"
-        name="sifat_tindakan"
+        label="No. WhatsApp"
+        name="phone_number"
         required
         color={color}
         type="text"
@@ -143,20 +106,39 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
      </div>
      <div className="flex flex-col gap-4 mb-4">
       <div>
-       <p className="text-xl font-semibold">UNGGAH FILE SURAT</p>
-       <p>Silahkan unggah file surat dalam satu file</p>
+       <p className="text-xl font-semibold">Informasi Kepegawaian</p>
+       <p>
+        Silahkan isi Informasi Kepegawaian dibawah ini, jika tidak perlu
+        kosongkan.
+       </p>
       </div>
-      <div className="w-full p-4 rounded-md bg-neutral-300">
-       <p className="mb-2 text-lg font-semibold text-black">UPLOAD FILE</p>
-       <label class="block">
-        <span class="sr-only">Choose profile photo</span>
-        <input
-         required
-         type="file"
-         name="file"
-         class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-600 hover:file:bg-gray-100"
-        />
-       </label>
+      <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
+       <Input
+        label="Jabatan"
+        name="jabatan"
+        required
+        color={color}
+        type="select"
+        selectData={[
+         "Pegawai",
+         "Kepala Satker",
+         "Kepala Subag",
+         "Admin Subag",
+         "Super Admin",
+        ]}
+       />
+       <Input
+        label="Satuan Kerja"
+        name="satker"
+        color={color}
+        type="text"
+       />
+       <Input
+        label="Sub Bagian"
+        name="subag"
+        color={color}
+        type="text"
+       />
       </div>
      </div>
      <div
@@ -197,7 +179,7 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
      setOpenSub(false);
      handler();
     }}>
-    Surat Masuk Berhasilan Disimpan
+    Buat Akun User Berhasilan Disimpan
    </ModalSuccess>
    <ModalFailed
     open={openSub === "Failed"}
@@ -205,10 +187,10 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
      setOpenSub(false);
      handler();
     }}>
-    Surat Masuk Gagal Disimpan
+    {failMsg}
    </ModalFailed>
   </>
  );
 };
 
-export default ModalTambahSuratMasuk;
+export default ModalTambahUser;

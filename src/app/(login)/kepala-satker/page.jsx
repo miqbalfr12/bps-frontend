@@ -1,11 +1,33 @@
+"use client";
+import {useSession} from "next-auth/react";
 import {
  FolderOutputIcon,
  FolderSymlinkIcon,
  UsersRoundIcon,
 } from "lucide-react";
-import React from "react";
+import React, {useEffect} from "react";
 
 const Page = () => {
+ const {data: session} = useSession();
+ const [data, setData] = React.useState({});
+ const getData = async () => {
+  await fetch("/api/v1.0.0/dashboard?data=surat_masuk,surat_keluar,user", {
+   method: "GET",
+   headers: {
+    authorization: `Bearer ${session.user.token}`,
+   },
+   cache: "no-store",
+  }).then(async (res) => {
+   if (res.ok) {
+    const resJson = await res.json();
+    setData(resJson);
+   }
+  });
+ };
+
+ useEffect(() => {
+  getData();
+ }, []);
  return (
   <div className="relative text-black">
    <div className="h-[250px] bg-[#E28839] p-8 text-white text-3xl font-semibold pt-16">
@@ -20,7 +42,7 @@ const Page = () => {
         <FolderSymlinkIcon className="text-white" />
        </div>
       </div>
-      <div className="text-3xl font-bold">123</div>
+      <div className="text-3xl font-bold">{data?.surat_masuk}</div>
       <p>Surat</p>
      </div>
      <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
@@ -30,7 +52,7 @@ const Page = () => {
         <FolderOutputIcon className="text-white" />
        </div>
       </div>
-      <div className="text-3xl font-bold">123</div>
+      <div className="text-3xl font-bold">{data?.surat_keluar}</div>
       <p>Surat</p>
      </div>
      <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
@@ -40,16 +62,16 @@ const Page = () => {
         <UsersRoundIcon className="text-white" />
        </div>
       </div>
-      <div className="text-3xl font-bold">123</div>
+      <div className="text-3xl font-bold">{data?.user}</div>
       <p>Surat</p>
      </div>
     </div>
     <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
      <h3 className="text-2xl font-semibold">Dashboard</h3>
      <p>
-      Selamat Datang :Nama Lengkap: di Simpel (Sistem Informasi Manajemen
-      Pelayanan Elektronik) Badan Pusat Statistik Tasikmalaya! Anda login
-      sebagai Kepala Satker.
+      Selamat Datang {session.user.fullname} di Simpel (Sistem Informasi
+      Manajemen Pelayanan Elektronik) Badan Pusat Statistik Tasikmalaya! Anda
+      login sebagai Kepala Satker.
      </p>
     </div>
    </div>
