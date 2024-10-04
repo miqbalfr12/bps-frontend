@@ -17,6 +17,7 @@ const ModalDisposisi = ({
 }) => {
  const {data: session} = useSession();
  const [openSub, setOpenSub] = React.useState(false);
+ const [loading, setLoading] = React.useState(false);
  const [failMsg, setFailMsg] = React.useState("");
 
  const [openView, setOpenView] = React.useState(false);
@@ -32,11 +33,16 @@ const ModalDisposisi = ({
 
  const handleSub = async (e) => {
   e.preventDefault();
+  if (loading) {
+   return;
+  }
+  setLoading(true);
   const formData = new FormData(e.target);
 
   const payload = {
    disposisi: selectedOptions,
-   surat_masuk_id: data.surat_masuk_id,
+   surat_keluar_id: data?.surat_keluar_id || null,
+   surat_masuk_id: data?.surat_masuk_id || null,
    catatan: formData.get("catatan"),
   };
 
@@ -58,6 +64,7 @@ const ModalDisposisi = ({
    const err = await kirimDisposisi.json();
    setFailMsg(err.message);
   }
+  setLoading(false);
  };
 
  return (
@@ -272,7 +279,7 @@ const ModalDisposisi = ({
          ? "bg-[#E28839]"
          : "bg-black"
        } `}>
-       Simpan
+       {loading ? "Loading" : "Simpan"}
       </button>
      </div>
     </form>

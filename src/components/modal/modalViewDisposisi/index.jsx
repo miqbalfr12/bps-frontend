@@ -1,14 +1,14 @@
 import React from "react";
 import Modal from "..";
 import {X} from "lucide-react";
-import Input from "@/components/input";
-import ModalSuccess from "../modalSuccess";
-import ModalViewPDF from "../modalViewPDF";
 
-const ModalViewDisposisi = ({open, handler, color, data}) => {
- const [openSub, setOpenSub] = React.useState(false);
- const handleSub = () => {
-  setOpenSub((prev) => !prev);
+import ModalViewPDF from "../modalViewPDF";
+import ModalCatatanDisposisi from "../modalCatatanDisposisi";
+
+const ModalViewDisposisi = ({open, handler, color, data, refreshData}) => {
+ const [openCatatan, setOpenCatatan] = React.useState(false);
+ const handleCatatan = (data) => {
+  setOpenCatatan(data);
  };
  const [openView, setOpenView] = React.useState(false);
  const handleView = (data) => {
@@ -82,7 +82,29 @@ const ModalViewDisposisi = ({open, handler, color, data}) => {
              }`}>
              View
             </button>
+            <button
+             onClick={() => handleCatatan(item)}
+             className={`flex items-center justify-center w-full px-4 py-2 text-gray-600 bg-white border-2 border-gray-300 rounded-md cursor-pointer hover:text-white ${
+              color === "blue"
+               ? "hover:bg-[#2D95CA]"
+               : color === "green"
+               ? "hover:bg-[#76B445]"
+               : color === "yellow"
+               ? "hover:bg-[#E28839]"
+               : "hover:bg-black"
+             }`}>
+             Buat Catatan
+            </button>
            </div>
+           {Object.entries(item.catatan).map(
+            ([key, value]) =>
+             value && (
+              <div className="flex gap-4 mt-4">
+               <p className="mb-2 text-lg font-semibold text-black">{key}</p>
+               <p className="text-black">{value}</p>
+              </div>
+             )
+           )}
           </div>
          ))
         ) : (
@@ -104,7 +126,30 @@ const ModalViewDisposisi = ({open, handler, color, data}) => {
             }`}>
             View
            </button>
+           <button
+            onClick={() => handleCatatan(data)}
+            className={`flex items-center justify-center w-full px-4 py-2 text-gray-600 bg-white border-2 border-gray-300 rounded-md cursor-pointer hover:text-white ${
+             color === "blue"
+              ? "hover:bg-[#2D95CA]"
+              : color === "green"
+              ? "hover:bg-[#76B445]"
+              : color === "yellow"
+              ? "hover:bg-[#E28839]"
+              : "hover:bg-black"
+            }`}>
+            Buat Catatan
+           </button>
           </div>
+          {data.catatan &&
+           Object.entries(data.catatan).map(
+            ([key, value]) =>
+             value && (
+              <div className="flex gap-4 mt-4">
+               <p className="mb-2 text-lg font-semibold text-black">{key}</p>
+               <p className="text-black">{value}</p>
+              </div>
+             )
+           )}
          </div>
         )}
        </div>
@@ -134,30 +179,17 @@ const ModalViewDisposisi = ({open, handler, color, data}) => {
        } `}>
        Tutup
       </button>
-      {/* <button
-       onClick={handleSub}
-       className={`px-4 py-2 rounded-lg text-white ${
-        color === "blue"
-         ? "bg-[#2D95CA]"
-         : color === "green"
-         ? "bg-[#76B445]"
-         : color === "yellow"
-         ? "bg-[#E28839]"
-         : "bg-black"
-       } `}>
-       Simpan
-      </button> */}
      </div>
     </div>
    </Modal>
-   <ModalSuccess
-    open={openSub}
+   <ModalCatatanDisposisi
+    color={color}
+    open={openCatatan ? true : false}
+    data={openCatatan}
+    refreshData={refreshData}
     handler={() => {
-     handleSub();
-     handler();
-    }}>
-    Surat Masuk Berhasilan Disimpan
-   </ModalSuccess>
+     handleCatatan(false);
+    }}></ModalCatatanDisposisi>
    <ModalViewPDF
     open={openView ? true : false}
     file={openView}

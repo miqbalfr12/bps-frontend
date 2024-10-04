@@ -27,7 +27,9 @@ const Page = () => {
    cache: "no-store",
   }).then(async (res) => {
    if (res.ok) {
-    const resJson = await res.json();
+    const resJson = await res
+     .json()
+     .then((res) => res.filter((item) => item.surat_masuk_id));
     resJson.map((item, index) => {
      item.no = index + 1;
     });
@@ -55,6 +57,7 @@ const Page = () => {
    <div className="absolute flex flex-col w-full gap-8 p-8 top-1/2">
     <Table
      data={dataSuratMasuk}
+     handleRefresh={refreshData}
      header={header}
      color="green"
     />

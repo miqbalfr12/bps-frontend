@@ -3,6 +3,7 @@ import Image from "next/image";
 import {signIn} from "next-auth/react";
 import ModalFailed from "@/components/modal/modalFailed";
 import {useState} from "react";
+import ModalLupaPassword from "@/components/modal/modalLupaPassword";
 
 export default function Home() {
  const [openSub, setOpenSub] = useState(false);
@@ -51,8 +52,18 @@ export default function Home() {
         placeholder="Password"></input>
       </div>
       <div className="w-full">
-       <button className="w-full px-3 py-2 bg-[#2D95CA] text-white rounded-md">
+       <button
+        type="submit"
+        className="w-full px-3 py-2 bg-[#2D95CA] text-white rounded-md">
         Login
+       </button>
+       <button
+        type="button"
+        onClick={() => {
+         setOpenSub("lupa password");
+        }}
+        className="w-full mt-6 text-[#2D95CA] rounded-md">
+        Lupa Password
        </button>
       </div>
      </form>
@@ -63,8 +74,14 @@ export default function Home() {
      <div className="bg-[#E28839] grow"></div>
     </div>
    </div>
+   <ModalLupaPassword
+    open={openSub === "lupa password" ? true : false}
+    handler={() => {
+     setOpenSub(false);
+    }}
+    color={"blue"}></ModalLupaPassword>
    <ModalFailed
-    open={openSub ? true : false}
+    open={openSub !== "lupa password" && openSub ? true : false}
     handler={() => {
      setOpenSub(false);
     }}>

@@ -9,9 +9,14 @@ import ModalFailed from "../modalFailed";
 
 const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
  const {data: session} = useSession();
+ const [loading, setLoading] = React.useState(false);
  const [openSub, setOpenSub] = React.useState(false);
  const handleSub = async (e) => {
   e.preventDefault();
+  if (loading) {
+   return;
+  }
+  setLoading(true);
   const formData = new FormData(e.target);
   const uploadSuratMasuk = await fetch(`/api/v1.0.0/surat-masuk`, {
    method: "POST",
@@ -27,6 +32,7 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
   } else {
    setOpenSub("Failed");
   }
+  setLoading(false);
  };
 
  return (
@@ -149,13 +155,13 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
       </div>
       <div className="w-full p-4 rounded-md bg-neutral-300">
        <p className="mb-2 text-lg font-semibold text-black">UPLOAD FILE</p>
-       <label class="block">
-        <span class="sr-only">Choose profile photo</span>
+       <label className="block">
+        <span className="sr-only">Choose file</span>
         <input
          required
          type="file"
          name="file"
-         class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-600 hover:file:bg-gray-100"
+         className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-600 hover:file:bg-gray-100"
         />
        </label>
       </div>
@@ -187,7 +193,7 @@ const ModalTambahSuratMasuk = ({open, handler, color, refreshData}) => {
          ? "bg-[#E28839]"
          : "bg-black"
        } `}>
-       Simpan
+       {loading ? "Loading" : "Simpan"}
       </button>
      </div>
     </form>

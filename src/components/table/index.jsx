@@ -1,5 +1,6 @@
 "use client";
 import {
+ ArchiveRestoreIcon,
  EyeIcon,
  PencilIcon,
  PrinterIcon,
@@ -10,6 +11,8 @@ import React from "react";
 import ModalDisposisi from "../modal/modalDisposisi";
 import ModalViewSuratMasuk from "../modal/modalViewSuratMasuk";
 import ModalViewDisposisi from "../modal/modalViewDisposisi";
+import ModalDeleteUser from "../modal/modalDeleteUser";
+import ModalRestoreUser from "../modal/modalRestoreUser";
 
 const Table = ({data, header, color, dataPegawai, handleRefresh}) => {
  const [open, setOpen] = React.useState(false);
@@ -17,6 +20,7 @@ const Table = ({data, header, color, dataPegawai, handleRefresh}) => {
  const handleOpen = (modal, data) => {
   if (modal) {
    if (data) {
+    console.log(data);
     setDataSurat(data);
    } else {
     setDataSurat(false);
@@ -81,7 +85,9 @@ const Table = ({data, header, color, dataPegawai, handleRefresh}) => {
                 return (
                  <button
                   key={index}
-                  onClick={() => handleOpen("view", itemd.surat)}
+                  onClick={() =>
+                   handleOpen("view", itemd?.surat || itemd.surat_keluar)
+                  }
                   className="p-2 rounded-md bg-[#2D95CA]">
                   <EyeIcon className="text-white" />
                  </button>
@@ -124,9 +130,19 @@ const Table = ({data, header, color, dataPegawai, handleRefresh}) => {
                case "delete":
                 return (
                  <button
+                  onClick={() => handleOpen("deleteUser", itemd)}
                   key={index}
                   className="bg-[#E28839] p-2 rounded-md">
                   <Trash2Icon className="text-white" />
+                 </button>
+                );
+               case "restore":
+                return (
+                 <button
+                  key={index}
+                  onClick={() => handleOpen("restoreUser", itemd)}
+                  className="bg-[#E28839] p-2 rounded-md">
+                  <ArchiveRestoreIcon className="text-white" />
                  </button>
                 );
               }
@@ -197,8 +213,23 @@ const Table = ({data, header, color, dataPegawai, handleRefresh}) => {
     handler={handleOpen}
     color={color}
    />
+   <ModalDeleteUser
+    open={open === "deleteUser"}
+    data={dataSurat}
+    handler={handleOpen}
+    refreshData={handleRefresh}
+    color={color}
+   />
+   <ModalRestoreUser
+    open={open === "restoreUser"}
+    data={dataSurat}
+    handler={handleOpen}
+    refreshData={handleRefresh}
+    color={color}
+   />
    <ModalViewDisposisi
     open={open === "viewDisposisi"}
+    refreshData={handleRefresh}
     data={dataSurat}
     handler={handleOpen}
     color={color}

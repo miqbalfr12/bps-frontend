@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
+import {signOut} from "next-auth/react";
 
 const menuSuperAdmin = [
  {
@@ -17,16 +18,16 @@ const menuSuperAdmin = [
   content: "Pengaturan",
   icon: "SettingsIcon",
   items: [
-   {
-    type: "link",
-    href: "/super-admin/lembaga",
-    content: "Lembaga",
-   },
-   {
-    type: "link",
-    href: "/super-admin/list-jabatan",
-    content: "Jabatan",
-   },
+   //    {
+   //     type: "link",
+   //     href: "/super-admin/lembaga",
+   //     content: "Lembaga",
+   //    },
+   //    {
+   //     type: "link",
+   //     href: "/super-admin/list-jabatan",
+   //     content: "Jabatan",
+   //    },
    {
     type: "link",
     href: "/super-admin/list-users",
@@ -34,29 +35,29 @@ const menuSuperAdmin = [
    },
   ],
  },
- {
-  type: "dropdown",
-  content: "Persuratan",
-  icon: "LayersIcon",
-  items: [
-   {
-    type: "link",
-    href: "/super-admin/list-surat-masuk",
-    content: "Surat Masuk",
-   },
-   {
-    type: "link",
-    href: "/super-admin/list-surat-keluar",
-    content: "Surat Keluar",
-   },
-  ],
- },
- {
-  type: "link",
-  href: "/super-admin/laporan",
-  content: "Laporan",
-  icon: "BookMarkedIcon",
- },
+ //  {
+ //   type: "dropdown",
+ //   content: "Persuratan",
+ //   icon: "LayersIcon",
+ //   items: [
+ //    {
+ //     type: "link",
+ //     href: "/super-admin/list-surat-masuk",
+ //     content: "Surat Masuk",
+ //    },
+ //    {
+ //     type: "link",
+ //     href: "/super-admin/list-surat-keluar",
+ //     content: "Surat Keluar",
+ //    },
+ //   ],
+ //  },
+ //  {
+ //   type: "link",
+ //   href: "/super-admin/laporan",
+ //   content: "Laporan",
+ //   icon: "BookMarkedIcon",
+ //  },
  {
   type: "text",
   content: "USER",
@@ -268,7 +269,7 @@ const authOptions = {
     if (userData.statusCode === 200) {
      return userData.user;
     } else {
-     throw new Error("Password salah");
+     throw new Error(userData.message || "Password salah");
     }
    },
   }),
@@ -283,14 +284,30 @@ const authOptions = {
     token.satker = user.satker;
     token.subag = user.subag;
     token.token = user.token;
-    token.expires = Date.now() + 60 * 60 * 12 * 1000; // 12 hours
+    token.expires = Date.now() + 60 * 1000; // 1 minute
    }
    return token;
   },
   async session({session, token}) {
    if (Date.now() > token.expires) {
-    session = null;
-    return session;
+    console.log("session expired");
+    const userData = await fetch(
+     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1.0.0/user/profile`,
+     {
+      headers: {
+       "Content-Type": "application/json",
+       Authorization: `Bearer ${token.token}`,
+      },
+      cache: "no-store",
+     }
+    ).then(async (res) => {
+     const jsonData = await res.json();
+     return {...jsonData, statusCode: res.status};
+    });
+    if (userData.error) {
+     return signOut({callbackUrl: "/"});
+    }
+    token.expires = Date.now() + 60 * 1000; // 1 minute
    }
    if ("fullname" in token) {
     session.user.fullname = token.fullname;

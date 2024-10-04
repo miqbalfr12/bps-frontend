@@ -1,16 +1,11 @@
 import React from "react";
 import Modal from "..";
 import {X} from "lucide-react";
-import Input from "@/components/input";
-import ModalSuccess from "../modalSuccess";
 import ModalViewPDF from "../modalViewPDF";
 
 const ModalViewSuratMasuk = ({open, handler, color, data}) => {
- const [openSub, setOpenSub] = React.useState(false);
- const handleSub = () => {
-  setOpenSub((prev) => !prev);
- };
  const [openView, setOpenView] = React.useState(false);
+ console.log(data);
  const handleView = () => {
   setOpenView((prev) => !prev);
  };
@@ -182,30 +177,10 @@ const ModalViewSuratMasuk = ({open, handler, color, data}) => {
        } `}>
        Tutup
       </button>
-      {/* <button
-       onClick={handleSub}
-       className={`px-4 py-2 rounded-lg text-white ${
-        color === "blue"
-         ? "bg-[#2D95CA]"
-         : color === "green"
-         ? "bg-[#76B445]"
-         : color === "yellow"
-         ? "bg-[#E28839]"
-         : "bg-black"
-       } `}>
-       Simpan
-      </button> */}
      </div>
     </div>
    </Modal>
-   <ModalSuccess
-    open={openSub}
-    handler={() => {
-     handleSub();
-     handler();
-    }}>
-    Surat Masuk Berhasilan Disimpan
-   </ModalSuccess>
+
    <ModalViewPDF
     open={openView}
     file={data?.file}

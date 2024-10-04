@@ -21,11 +21,8 @@ const Page = () => {
   }).then(async (res) => {
    if (res.ok) {
     const resJson = await res.json();
-    resJson.map((item, index) => {
-     item.no = index + 1;
-     if (item.jabatan === "Super Admin") item.aksi = ["view"];
-     else item.aksi = ["view", "edit", "delete"];
-    });
+    console.log(resJson);
+
     setData(resJson);
    }
   });
@@ -58,6 +55,7 @@ const Page = () => {
      <Table
       data={data}
       header={header}
+      handleRefresh={refreshData}
       color="blue"
      />
     </div>

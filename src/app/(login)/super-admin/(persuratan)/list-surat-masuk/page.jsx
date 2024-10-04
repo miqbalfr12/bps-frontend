@@ -73,6 +73,7 @@ const Page = () => {
    <ModalTambahSuratMasuk
     open={open}
     handler={handleModal}
+    refreshData={() => {}}
     color="blue"
    />
   </>

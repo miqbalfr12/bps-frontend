@@ -7,7 +7,8 @@ import Input from "@/components/input";
 import ModalSuccess from "../modalSuccess";
 import ModalFailed from "../modalFailed";
 
-const ModalTambahUser = ({open, handler, color, refreshData}) => {
+const ModalRestoreUser = ({open, handler, color, data, refreshData}) => {
+ console.log(data.user_id);
  const {data: session} = useSession();
  const [loading, setLoading] = React.useState(false);
  const [openSub, setOpenSub] = React.useState(false);
@@ -18,18 +19,15 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
    return;
   }
   setLoading(true);
-  const formData = new FormData(e.target);
-  const dataObj = {};
-  formData.forEach((value, key) => {
-   if (value) dataObj[key] = value;
-  });
-  const createUser = await fetch(`/api/v1.0.0/auth/register`, {
+
+  const createUser = await fetch(`/api/v1.0.0/auth/restore`, {
    method: "POST",
    headers: {
     "Content-Type": "application/json",
+    authorization: `Bearer ${session.user.token}`,
    },
    cache: "no-store",
-   body: JSON.stringify(dataObj),
+   body: JSON.stringify({user_id: data.user_id}),
   });
   if (createUser.ok) {
    setOpenSub("Success");
@@ -60,7 +58,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
         ? "border-[#E28839]"
         : "border-black"
       } mb-4 `}>
-      <p className="text-xl font-semibold">TAMBAH USER</p>
+      <p className="text-xl font-semibold">Restore User</p>
       <button
        type="button"
        onClick={handler}>
@@ -68,84 +66,10 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
       </button>
      </div>
      <div className="flex flex-col gap-4 mb-4">
-      <div>
-       <p className="text-xl font-semibold">Informasi User</p>
-       <p>Lengkapi Informasi User</p>
-      </div>
       <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
-       <Input
-        label="Nama Lengkap"
-        name="fullname"
-        required
-        color={color}
-        type="text"
-       />
-       <Input
-        label="Tanggal Lahir"
-        name="birth_date"
-        color={color}
-        type="date"
-       />
-      </div>
-      <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
-       <Input
-        label="NIK"
-        name="nik"
-        required
-        color={color}
-        type="text"
-       />
-       <Input
-        label="Email"
-        name="email"
-        required
-        color={color}
-        type="email"
-       />
-       <Input
-        label="No. WhatsApp"
-        name="phone_number"
-        required
-        color={color}
-        type="text"
-       />
-      </div>
-     </div>
-     <div className="flex flex-col gap-4 mb-4">
-      <div>
-       <p className="text-xl font-semibold">Informasi Kepegawaian</p>
        <p>
-        Silahkan isi Informasi Kepegawaian dibawah ini, jika tidak perlu
-        kosongkan.
+        Apakah anda yakin ingin restore akun <b>{data.fullname}</b>?
        </p>
-      </div>
-      <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
-       <Input
-        label="Jabatan"
-        name="jabatan"
-        required
-        color={color}
-        type="select"
-        selectData={[
-         {item: "Pegawai", value: "Pegawai"},
-         {item: "Kepala Satker", value: "Kepala Satker"},
-         {item: "Kepala Subag", value: "Kepala Subag"},
-         {item: "Admin Subag", value: "Admin Subag"},
-         {item: "Super Admin", value: "Super Admin"},
-        ]}
-       />
-       <Input
-        label="Satuan Kerja"
-        name="satker"
-        color={color}
-        type="text"
-       />
-       <Input
-        label="Sub Bagian"
-        name="subag"
-        color={color}
-        type="text"
-       />
       </div>
      </div>
      <div
@@ -175,7 +99,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
          ? "bg-[#E28839]"
          : "bg-black"
        } `}>
-       {loading ? "Loading" : "Simpan"}
+       {loading ? "Loading" : "Restore"}
       </button>
      </div>
     </form>
@@ -186,7 +110,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
      setOpenSub(false);
      handler();
     }}>
-    Buat Akun User Berhasilan Disimpan
+    Berhasil Restore User
    </ModalSuccess>
    <ModalFailed
     open={openSub === "Failed"}
@@ -200,4 +124,4 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
  );
 };
 
-export default ModalTambahUser;
+export default ModalRestoreUser;

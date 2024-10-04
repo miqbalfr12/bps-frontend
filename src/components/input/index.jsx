@@ -1,6 +1,14 @@
 import React from "react";
 
-const Input = ({label, color, type, name, required = false, selectData}) => {
+const Input = ({
+ label,
+ color,
+ type,
+ name,
+ required = false,
+ selectData,
+ caption,
+}) => {
  return type === "select" ? (
   <div className="flex flex-col w-full">
    <label>
@@ -18,10 +26,10 @@ const Input = ({label, color, type, name, required = false, selectData}) => {
       ? "focus:border-[#E28839]"
       : "focus:border-black"
     } focus:outline-none`}>
-    {selectData.map((item) => (
+    {selectData.map(({value, item}, index) => (
      <option
-      key={item}
-      value={item}>
+      key={index}
+      value={value}>
       {item}
      </option>
     ))}
@@ -46,6 +54,7 @@ const Input = ({label, color, type, name, required = false, selectData}) => {
       : "focus:border-black"
     } focus:outline-none`}
    />
+   {caption && <p className="text-sm text-red-500">{caption}</p>}
   </div>
  );
 };

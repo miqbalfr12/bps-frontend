@@ -45,7 +45,7 @@ const Page = () => {
      </button>
     </div>
     <div className="flex flex-col flex-1 min-w-[250px] gap-4 p-8 bg-white rounded-lg shadow-lg">
-     <table class="table-fixed border-collapse">
+     <table className="table-fixed border-collapse">
       <thead>
        <tr className="border-b-2 border-[#2D95CA]">
         <th className="p-4">No.</th>

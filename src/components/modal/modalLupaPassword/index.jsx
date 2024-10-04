@@ -1,5 +1,4 @@
 "use client";
-import {useSession} from "next-auth/react";
 import React from "react";
 import Modal from "..";
 import {X} from "lucide-react";
@@ -7,10 +6,9 @@ import Input from "@/components/input";
 import ModalSuccess from "../modalSuccess";
 import ModalFailed from "../modalFailed";
 
-const ModalTambahUser = ({open, handler, color, refreshData}) => {
- const {data: session} = useSession();
- const [loading, setLoading] = React.useState(false);
+const ModalLupaPassword = ({open, handler, color}) => {
  const [openSub, setOpenSub] = React.useState(false);
+ const [loading, setLoading] = React.useState(false);
  const [failMsg, setFailMsg] = React.useState("Buat Akun User Gagal Disimpan");
  const handleSub = async (e) => {
   e.preventDefault();
@@ -23,7 +21,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
   formData.forEach((value, key) => {
    if (value) dataObj[key] = value;
   });
-  const createUser = await fetch(`/api/v1.0.0/auth/register`, {
+  const createUser = await fetch(`/api/v1.0.0/auth/reset`, {
    method: "POST",
    headers: {
     "Content-Type": "application/json",
@@ -33,12 +31,12 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
   });
   if (createUser.ok) {
    setOpenSub("Success");
-   refreshData();
   } else {
    const err = await createUser.json();
    setOpenSub("Failed");
    setFailMsg(err.message);
   }
+
   setLoading(false);
  };
 
@@ -60,7 +58,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
         ? "border-[#E28839]"
         : "border-black"
       } mb-4 `}>
-      <p className="text-xl font-semibold">TAMBAH USER</p>
+      <p className="text-xl font-semibold">Lupa Password</p>
       <button
        type="button"
        onClick={handler}>
@@ -71,21 +69,6 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
       <div>
        <p className="text-xl font-semibold">Informasi User</p>
        <p>Lengkapi Informasi User</p>
-      </div>
-      <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
-       <Input
-        label="Nama Lengkap"
-        name="fullname"
-        required
-        color={color}
-        type="text"
-       />
-       <Input
-        label="Tanggal Lahir"
-        name="birth_date"
-        color={color}
-        type="date"
-       />
       </div>
       <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
        <Input
@@ -101,50 +84,6 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
         required
         color={color}
         type="email"
-       />
-       <Input
-        label="No. WhatsApp"
-        name="phone_number"
-        required
-        color={color}
-        type="text"
-       />
-      </div>
-     </div>
-     <div className="flex flex-col gap-4 mb-4">
-      <div>
-       <p className="text-xl font-semibold">Informasi Kepegawaian</p>
-       <p>
-        Silahkan isi Informasi Kepegawaian dibawah ini, jika tidak perlu
-        kosongkan.
-       </p>
-      </div>
-      <div className="flex flex-wrap w-full gap-2 md:flex-nowrap">
-       <Input
-        label="Jabatan"
-        name="jabatan"
-        required
-        color={color}
-        type="select"
-        selectData={[
-         {item: "Pegawai", value: "Pegawai"},
-         {item: "Kepala Satker", value: "Kepala Satker"},
-         {item: "Kepala Subag", value: "Kepala Subag"},
-         {item: "Admin Subag", value: "Admin Subag"},
-         {item: "Super Admin", value: "Super Admin"},
-        ]}
-       />
-       <Input
-        label="Satuan Kerja"
-        name="satker"
-        color={color}
-        type="text"
-       />
-       <Input
-        label="Sub Bagian"
-        name="subag"
-        color={color}
-        type="text"
        />
       </div>
      </div>
@@ -175,7 +114,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
          ? "bg-[#E28839]"
          : "bg-black"
        } `}>
-       {loading ? "Loading" : "Simpan"}
+       {loading ? "Loading" : "Reset"}
       </button>
      </div>
     </form>
@@ -186,7 +125,7 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
      setOpenSub(false);
      handler();
     }}>
-    Buat Akun User Berhasilan Disimpan
+    Akun User Berhasilan Direset, dan dikirim via Email/Whatsaapp
    </ModalSuccess>
    <ModalFailed
     open={openSub === "Failed"}
@@ -200,4 +139,4 @@ const ModalTambahUser = ({open, handler, color, refreshData}) => {
  );
 };
 
-export default ModalTambahUser;
+export default ModalLupaPassword;
