@@ -99,7 +99,9 @@ const ModalViewDisposisi = ({open, handler, color, data, refreshData}) => {
            {Object.entries(item.catatan).map(
             ([key, value]) =>
              value && (
-              <div className="flex gap-4 mt-4">
+              <div
+               key={key}
+               className="flex gap-4 mt-4">
                <p className="mb-2 text-lg font-semibold text-black">{key}</p>
                <p className="text-black">{value}</p>
               </div>
@@ -144,7 +146,7 @@ const ModalViewDisposisi = ({open, handler, color, data, refreshData}) => {
            Object.entries(data.catatan).map(
             ([key, value]) =>
              value && (
-              <div className="flex gap-4 mt-4">
+              <div key={key} className="flex gap-4 mt-4">
                <p className="mb-2 text-lg font-semibold text-black">{key}</p>
                <p className="text-black">{value}</p>
               </div>
