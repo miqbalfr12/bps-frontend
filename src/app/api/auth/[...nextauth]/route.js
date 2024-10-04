@@ -136,12 +136,12 @@ const menuKepalaSatker = [
    },
   ],
  },
- {
-  type: "link",
-  href: "/kepala-satker/laporan",
-  content: "Laporan",
-  icon: "BookMarkedIcon",
- },
+//  {
+//   type: "link",
+//   href: "/kepala-satker/laporan",
+//   content: "Laporan",
+//   icon: "BookMarkedIcon",
+//  },
  {
   type: "text",
   content: "USER",
@@ -181,12 +181,12 @@ const menuKepalaSubag = [
    },
   ],
  },
- {
-  type: "link",
-  href: "/kepala-subag/laporan",
-  content: "Laporan",
-  icon: "BookMarkedIcon",
- },
+//  {
+//   type: "link",
+//   href: "/kepala-subag/laporan",
+//   content: "Laporan",
+//   icon: "BookMarkedIcon",
+//  },
  {
   type: "text",
   content: "USER",
