@@ -4,7 +4,7 @@ const nextConfig = {
   return [
    {
     source: "/api/v1.0.0/:path*",
-    destination: `http://localhost:3001/api/v1.0.0/:path*`,
+    destination: `https://bps-backend.reidteam.web.id/api/v1.0.0/:path*`,
    },
   ];
  },
