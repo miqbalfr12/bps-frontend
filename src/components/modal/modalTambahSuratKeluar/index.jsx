@@ -317,7 +317,6 @@ const ModalTambahSuratKeluar = ({open, handler, color, refreshData}) => {
     <form
      onSubmit={handleSub}
      className="px-8">
-     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
      <div
       className={`flex justify-between w-full pb-2 border-b-2 ${
        color === "blue"
